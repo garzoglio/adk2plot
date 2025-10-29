@@ -1,4 +1,4 @@
-# Note: This code requires the google-cloud-aiplatform library to be installed.
+# Note: This code requires the google-adk library to be installed.
 # You also need to be authenticated with Google Cloud to use the Vertex AI services.
 
 import matplotlib.pyplot as plt
@@ -74,10 +74,12 @@ def generate_plot_base64(data):
     
     return image_base64
 
-# --- ADK Agent Logic (Refactored for Module Use) ---
+# --- ADK Agent Logic ---
 class Database:
     """
-    A class to represent an in-memory SQLite database.
+    A class to represent an in-memory SQLite database. This is a placeholder for a
+    real database holding the data to be plot. The data can be extracted running
+    an SQL statement that filters the data for the plot. 
     """
     def __init__(self):
         """
@@ -162,11 +164,12 @@ def generate_report_data():
     )
     chat = model.start_chat()
 
-    # --- Step 3: Prompt the Model to Generate a SQL Query ---
-    #prompt = "Retrieve all the data in the database and then use the plotting tool to generate a plot."
-    # For this mock, we'll just use a fixed query.
+    # --- Step 3: Define an SQL Query to retrieve the data to plot ---
+    # For this mock, we'll just use a fixed query. In principle, this can be implemented
+    # as another ADK agent that transforms natural language into SQL to extract the
+    # relevant data. In this example, we use a static query.
     mock_sql_query = "SELECT x, y FROM metrics"
-    print(f"Agent: (Simulated) LLM generated SQL query: {mock_sql_query}")
+    print(f"Agent: Simulated LLM generated SQL query: {mock_sql_query}")
 
     # --- Step 4: Execute the Query and Retrieve Data ---
     rows = db.query(mock_sql_query)
@@ -184,7 +187,6 @@ def generate_report_data():
     else:
         image_data_base64 = None
 
-
     if not image_data_base64:
         # Fallback if image generation fails
         final_output = {
@@ -193,6 +195,11 @@ def generate_report_data():
         }
     else:
         # --- Step 6: Structured Output Generation ---
+
+        # The following defines a text message to be displayed in the UI together with the plot.
+        # Here it is generated as semistatic string. In a real agentic framework, it would be
+        # generated as the output of some other agent.
+         
         y_values = [d['y'] for d in mock_query_result]
         avg_y = sum(y_values) / len(y_values)
         
@@ -203,6 +210,8 @@ def generate_report_data():
             "The embedded plot provides the definitive visual trend."
         )
         
+        # The following statment combines the text message with the base64 encoded plot. 
+        # The application will unpack the information and diplay both text and plot.
         final_output = {
             "status": "success",
             "text": analysis_text,
