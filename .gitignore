@@ -1,0 +1,37 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+# Ignore common names for virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Dependency Management (Pip/Poetry/etc.)
+# This ignores the environments used by pipenv or poetry,
+# but it's common practice to keep Pipfile.lock or poetry.lock
+# in version control for dependency reproducibility.
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.egg
+/target
+
+# OS/IDE generated files
+.DS_Store
+Thumbs.db
+# Common IDE directories (e.g., VS Code, PyCharm)
+.vscode/
+.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
