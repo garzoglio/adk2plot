@@ -1,8 +1,7 @@
 from flask import Flask, render_template
 from adk_agent import generate_report_data
 
-# NOTE: The 'template_folder' argument is removed here. Flask will now 
-# automatically look for templates in a sub-folder named 'templates'.
+# NOTE: Flask automatically looks for templates in a sub-folder named 'templates'.
 app = Flask(__name__)
 
 @app.route('/')
@@ -27,7 +26,7 @@ def dashboard():
         image_src = None
 
     # Pass all relevant data to the template
-    # The name 'index.html' is correct, but Flask will look for it in /templates/index.html
+    # Flask will look for index.html in /templates/index.html
     return render_template(
         'index.html',
         agent_status=report_data.get('status'),
